@@ -15,6 +15,7 @@ import androidx.annotation.IntDef;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -191,16 +192,17 @@ public class TreeAdapter extends BaseAdapter {
 
     public void onItemClick(int position) {
         TreePoint treePoint = (TreePoint) getItem(position);
+        String positionStr=""+(position+1);
         if ("1".equals(treePoint.getISLEAF())) {   //点击叶子节点
             //处理回填
             Toast.makeText(mContext, getSubmitResult(treePoint), Toast.LENGTH_SHORT).show();
 
-
         } else {  //如果点击的是父类
             if (treePoint.isExpand()) {
                 for (TreePoint tempPoint : pointList) {
-                    if (tempPoint.getPARENTID().equals(treePoint.getID())||"0".equals(treePoint.getPARENTID())) {
+                    if (tempPoint.getPARENTID().equals(treePoint.getID())) {
                         if ("0".equals(treePoint.getISLEAF())) {
+                            closeExpand(tempPoint);
                             tempPoint.setExpand(false);
                         }
                     }
@@ -211,6 +213,21 @@ public class TreeAdapter extends BaseAdapter {
             }
         }
         this.notifyDataSetChanged();
+    }
+
+    public void closeExpand(TreePoint temp) {
+        if ("1".equals(temp.getISLEAF())) {
+            return;
+        } else {
+            for (TreePoint tempPoint : pointList) {
+                if (tempPoint.getPARENTID().equals(temp.getID())) {
+                    if ("0".equals(temp.getISLEAF())) {
+                        closeExpand(tempPoint);
+                        tempPoint.setExpand(false);
+                    }
+                }
+            }
+        }
     }
 
 
