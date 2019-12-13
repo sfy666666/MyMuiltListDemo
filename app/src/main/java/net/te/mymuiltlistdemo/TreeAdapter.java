@@ -215,10 +215,8 @@ public class TreeAdapter extends BaseAdapter {
         this.notifyDataSetChanged();
     }
 
-    public void closeExpand(TreePoint temp) {
-        if ("1".equals(temp.getISLEAF())) {
-            return;
-        } else {
+    private void closeExpand(TreePoint temp) {
+
             for (TreePoint tempPoint : pointList) {
                 if (tempPoint.getPARENTID().equals(temp.getID())) {
                     if ("0".equals(temp.getISLEAF())) {
@@ -227,7 +225,7 @@ public class TreeAdapter extends BaseAdapter {
                     }
                 }
             }
-        }
+
     }
 
 
